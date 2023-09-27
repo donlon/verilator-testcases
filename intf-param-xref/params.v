@@ -21,34 +21,15 @@ endinterface
 module t ();
   simple_bus #(.PARAMETER(100)) intf();
 
-  logic [99:0] a;
-  sub #(.PARAM_3(1000)) i_sub(.intf, .in_a(a));
-  initial begin
-    if (intf.PARAMETER != 100) $stop;
-    if (intf.PARAMETER_X != 100) $stop;
-    if (intf.PARAMETER_XX != 1100) $stop;
-    if (intf.PARAMETER_Y != 1300) $stop;
-    if (intf.PARAMETER_YY != 2100) $stop;
-
-    if (i_sub.intf_inner1.PARAMETER != 100) $stop;
-    if (i_sub.intf_inner1.PARAMETER_X != 100) $stop;
-    if (i_sub.intf_inner1.PARAMETER_XX != 1100) $stop;
-    if (i_sub.intf_inner1.PARAMETER_Y != 1300) $stop;
-    if (i_sub.intf_inner1.PARAMETER_YY != 2100) $stop;
-
-    //$write("*-* All Finished *-*\n");
-    //$finish;
-  end
+  sub #(
+    //.PARAM_3(1000)
+  ) i_sub(.intf);
 endmodule
 
 module sub # (
-  // VCS/Questa: OK
-  // xmelab: *E,NOTDOT (./testbench.sv,49|23): Hierarchical name ('intf.PARAMETER') not allowed within a constant expression [4(IEEE)].
-  // ERROR VCP2639 "Parameter initial value cannot contain external references: intf.PARAMETER." "testbench.sv" 49  2
-  parameter INTF_PARAM = intf.PARAMETER
+  parameter INTF_PARAM = 1
 ) (
-  simple_bus.mp intf,
-  input [intf.PARAMETER-1:0] in_a
+  simple_bus.mp intf
 );
   simple_bus #(.PARAMETER(intf.PARAMETER)) intf_inner1();
   simple_bus #(.PARAMETER(intf.PARAMETER + 100)) intf_inner2();
@@ -59,6 +40,16 @@ module sub # (
   // Questa: ** Error (suppressible): testbench.sv(25): (vopt-3013) A parameter override is not allowed for localparam 'PARAM_3'.
   // xmelab: *E,CUPASNA (./testbench.sv,25|15): Illegal override of local parameter 'PARAM_3'.
   parameter PARAM_3 = intf_inner2.PARAMETER; // became localparam?
+
+    // With '#()'
+    //     Questa: error (localparam)
+    //     VCS: OK
+    // With '#(parameter ...)'
+    //     Questa: error (localparam)
+    //     VCS: warning, not overridden
+    // Without '#'
+    // Questa: OK
+    // VCS: OK
 
   // simple_bus #(.PARAMETER(intf.PARAMETER + 2)) intf_inner2();
   initial begin

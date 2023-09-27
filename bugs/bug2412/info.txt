@@ -1,0 +1,6 @@
+%Error: type_ident.v:16:26: syntax error, unexpected TYPE-IDENTIFIER
+   16 |         automatic string type_2_t = "str";
+      |                          ^~~~~~~~
+%Error: type_ident.v:17:26: syntax error, unexpected ')', expecting "'{"
+   17 |         $display(type_2_t);
+      |                          ^

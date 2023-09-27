@@ -2,6 +2,9 @@
 /.idea/
 /cmake-build-*/
 
-obj_dir/
+obj*/
 work/
 transcript
+
+.project
+.library_mapping.xml

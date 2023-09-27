@@ -1,0 +1,10 @@
+
+V3Param::param(v3Global.rootp());
+    V3Broken::brokenAll(netp);
+        AstRefDType::broken();
+-- V3LinkDot::linkDotParamed(v3Global.rootp());  // Cleanup as made new modules
+
+"'m_typedefp && !m_typedefp->brokeExists()' @ /home/donlon/works/fpga-switch/verilator/src/V3AstNodes.cpp:1796"
+
+nodep : AstNodeDType
+nodep.backp() : AstVar a_channel -- module t

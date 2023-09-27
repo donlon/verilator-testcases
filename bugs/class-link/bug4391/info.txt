@@ -1,0 +1,11 @@
+%Error: Internal Error: main.v:28:22: ../V3Width.cpp:1811: Unlinked
+                                    : ... In instance top
+-node: REFDTYPE 0x555556576b60 <e814> {d28aw} @dt=0@  cmd_tag_t -> UNLINKED
+   28 |    xxx_class#(Cfg0)::cmd_tag_t tag, tag_q;
+      |                      ^~~~~~~~~
+
+
+V3Param
+    V3Width
+        $clog2(tag)
+            type linked in V3Param
